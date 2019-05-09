@@ -27,7 +27,12 @@ class roads:
                 self.bestLength = resultLength
                 self.bestTour = copy.deepcopy(self.tour)
                 return
-        if promising
+        if not promising():
+            return
+        for cityIndex in range(len(city)):
+            if not visited(index, cityIndex):
+                self.tour[index + 1] = cityIndex
+                travel(index + 1)
     
     def calcLength(self, last):
         totalLength = 0
@@ -44,5 +49,15 @@ class roads:
             return True
         else:
             return False
+
+    def visited(self, last, cityIndex):
+        i = 0
+        while i <= last:
+            if self.tour[i] == cityIndex:
+                return True
+            i = i + 1
+        return False
+
+            
         
 
