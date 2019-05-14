@@ -1,6 +1,5 @@
 import search
 
-newroads = search.roads()
-newroads.travel(0)
-print(newroads.bestTour)
-print(newroads.bestLength)
+if __name__ == '__main__':
+    tsp = search.TSP()
+    print(tsp.travel())
