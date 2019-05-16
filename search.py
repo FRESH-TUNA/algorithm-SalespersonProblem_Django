@@ -1,8 +1,8 @@
 import sys
 from queue import PriorityQueue
 
-class Node:
-    def __init__(self, level=None, path=None, bound=None):
+class Tour:
+    def __init__(self, level=None, path=None, bound=0):
         self.level = level
         self.path = path
         self.bound = bound
@@ -11,7 +11,7 @@ class Node:
         return (self.bound < other.bound)
 
 class TSP:
-    tour = Node()
+    tour = Tour()
     bestTour = []
     bestLength = sys.maxsize
 
@@ -41,17 +41,16 @@ class TSP:
     def travel(self):
         queue = PriorityQueue()
 
-        vertex = Node(0, [0])
-        vertex.bound = self.bound(vertex)
-
-        queue.put(vertex)
+        newTour = Tour(0, [0])
+    
+        queue.put(newTour)
 
         while not queue.empty():
-            vertex = queue.get()
-            if vertex.bound < self.bestLength:
-                self.tour.level = vertex.level + 1
-                for i in filter(lambda x: x not in vertex.path, range(1, len(self.city))):
-                    self.tour.path = vertex.path[:]
+            newTour = queue.get()
+            if newTour.bound < self.bestLength:
+                self.tour.level = newTour.level + 1
+                for i in filter(lambda x: x not in newTour.path, range(1, len(self.city))):
+                    self.tour.path = newTour.path[:]
                     self.tour.path.append(i)
                     if self.tour.level == len(self.city) - 2:
                         l = set(range(1, len(self.city))) - set(self.tour.path)
@@ -66,7 +65,7 @@ class TSP:
                         if self.tour.bound < self.bestLength:
                             queue.put(self.tour)
 
-                    self.tour = Node(level=self.tour.level)
+                    self.tour = Tour(level=self.tour.level)
 
 
     def length(self, tour):
