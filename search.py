@@ -69,27 +69,19 @@ class TSP:
                     self.tour = Node(level=self.tour.level)
 
 
-    def length(self, node):
-        tour = node.path
-        return sum([self.weight[tour[i]][tour[i + 1]] for i in range(len(tour) - 1)])
+    def length(self, tour):
+        result = 0
+        for i in range(len(tour.path) - 1):
+            result = result + self.weight[tour.path[i]][tour.path[i + 1]]
+        return result
+        
 
 
     def bound(self, node):
         bound = 0
         n = len(self.city)
-        #last = node.path[-1]
-
-        #remain = list(filter(lambda x: x not in node.path, range(n)))
-
         for i in range(len(node.path) - 1):
             bound += self.weight[node.path[i]][node.path[i + 1]]
-
-        #bound += min([self.weight[last][i] for i in remain])
-
-        #p = [node.path[0]] + remain
-    
-        #for r in remain:
-        #    bound += min([self.weight[r][i] for i in filter(lambda x: x != r, p)])
         return bound
 
 
